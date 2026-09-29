@@ -1,0 +1,26 @@
+---
+import { REFERENCES, REFERENCES_NOTE } from '../lib/site';
+---
+
+<section id="references" class="section" aria-labelledby="references-title" style="padding-block-start: 0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">References</p>
+      <h2 id="references-title" class="section-title" style="margin-bottom: 0">Academic references</h2>
+    </div>
+
+    <div class="refs-grid" data-reveal>
+      {
+        REFERENCES.map((ref) => (
+          <article class="ref">
+            <h3 class="ref-name">{ref.name}</h3>
+            <p class="ref-creds">{ref.credentials}</p>
+            <p class="ref-aff">{ref.affiliation}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="refs-note" data-reveal>{REFERENCES_NOTE}</p>
+  </div>
+</section>

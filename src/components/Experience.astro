@@ -1,0 +1,30 @@
+---
+import { EXPERIENCE } from '../lib/site';
+---
+
+<section id="experience" class="section" aria-labelledby="experience-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Experience</p>
+      <h2 id="experience-title" class="section-title">Professional trajectory</h2>
+    </div>
+
+    <div class="entry-list">
+      {
+        EXPERIENCE.map((item, i) => (
+          <article class="entry" data-reveal style={`--d: ${0.07 * i}s`}>
+            <p class="entry-period">{item.period}</p>
+            <div class="entry-body">
+              <h3 class="entry-title">{item.title}</h3>
+              <p class="entry-org">{item.org}</p>
+              <p class="entry-desc">{item.description}</p>
+              <ul class="entry-tags" aria-label="Areas">
+                {item.tags.map((tag) => <li><span class="chip">{tag}</span></li>)}
+              </ul>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

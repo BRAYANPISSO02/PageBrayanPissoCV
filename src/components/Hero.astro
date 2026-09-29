@@ -1,0 +1,102 @@
+---
+import Icon from './Icon.astro';
+import { SITE, CV_URL } from '../lib/site';
+
+const heroTech = [
+  { label: 'Python', featured: false },
+  { label: 'PyTorch', featured: false },
+  { label: 'TensorFlow / Keras', featured: false },
+  { label: 'Amazon SageMaker', featured: false },
+  { label: 'AWS', featured: false },
+  { label: 'Computer Vision', featured: true },
+] as const;
+---
+
+<section id="home" class="hero" aria-label="Introduction">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow" data-reveal>{SITE.title} · {SITE.location}</p>
+        <h1 class="hero-name" data-reveal style="--d: .06s">{SITE.displayName}</h1>
+        <p class="hero-tagline" data-reveal style="--d: .12s">{SITE.tagline}</p>
+        <p class="hero-desc" data-reveal style="--d: .18s">
+          Electronics Engineer specialized in Machine Learning and Computer Vision, with a focus
+          on developing end-to-end solutions. Expertise in dataset construction, supervised model
+          training, and deploying solutions using PyTorch and Amazon SageMaker.
+        </p>
+
+        <div class="hero-actions" data-reveal style="--d: .24s">
+          <a class="btn btn--primary" href="#projects">
+            View Projects
+            <Icon name="arrow-right" size={16} strokeWidth={2.2} />
+          </a>
+          <a class="btn btn--secondary" href={CV_URL} download>
+            <Icon name="download" size={16} strokeWidth={2.2} />
+            Download CV
+          </a>
+          <a class="btn btn--ghost" href={SITE.linkedin} target="_blank" rel="noopener noreferrer">
+            <Icon name="linkedin" size={16} strokeWidth={2} />
+            LinkedIn
+          </a>
+          <a class="btn btn--ghost" href={SITE.github} target="_blank" rel="noopener noreferrer">
+            <Icon name="github" size={16} strokeWidth={2} />
+            GitHub
+          </a>
+        </div>
+
+        <ul class="hero-tech" data-reveal style="--d: .3s" aria-label="Core technologies">
+          {
+            heroTech.map((tech) => (
+              <li>
+                {tech.featured ? (
+                  <span class="chip chip--accent">{tech.label}</span>
+                ) : (
+                  <span class="chip">{tech.label}</span>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <aside class="datasheet" data-reveal style="--d: .2s" aria-label="Profile summary">
+        <p class="datasheet-head">Profile — Engineering sheet</p>
+        <dl>
+          <div class="datasheet-row">
+            <dt>Name</dt>
+            <dd>{SITE.fullName}</dd>
+          </div>
+          <div class="datasheet-row">
+            <dt>Location</dt>
+            <dd>{SITE.location}</dd>
+          </div>
+          <div class="datasheet-row">
+            <dt>Email</dt>
+            <dd>
+              <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+            </dd>
+          </div>
+          <div class="datasheet-row">
+            <dt>GitHub</dt>
+            <dd>
+              <a href={SITE.github} target="_blank" rel="noopener noreferrer">BRAYANPISSO02</a>
+            </dd>
+          </div>
+          <div class="datasheet-row">
+            <dt>LinkedIn</dt>
+            <dd>
+              <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer">in/brayan-ricardo-pisso-ramirez</a>
+            </dd>
+          </div>
+        </dl>
+        <div class="datasheet-stat">
+          <span class="datasheet-stat-value">≈ 2 h</span>
+          <span class="datasheet-stat-label">
+            manual design time reduced<br />
+            per image — featured project
+          </span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

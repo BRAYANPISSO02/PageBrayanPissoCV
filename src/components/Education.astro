@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+import { EDUCATION } from '../lib/site';
+---
+
+<section id="education" class="section" aria-labelledby="education-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Education</p>
+      <h2 id="education-title" class="section-title">Academic background</h2>
+    </div>
+
+    <div class="entry-list">
+      {
+        EDUCATION.map((item, i) => (
+          <article class="entry" data-reveal style={`--d: ${0.07 * i}s`}>
+            <p class="entry-period">{item.period}</p>
+            <div class="entry-body">
+              <h3 class="entry-title">{item.degree}</h3>
+              <p class="entry-org">{item.institution}</p>
+              {
+                item.researchNote && (
+                  <p class="entry-research">
+                    <Icon name="chip" size={13} strokeWidth={2} />
+                    {item.researchNote}
+                  </p>
+                )
+              }
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

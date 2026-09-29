@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import FeaturedProject from '../components/FeaturedProject.astro';
+import Experience from '../components/Experience.astro';
+import Skills from '../components/Skills.astro';
+import Education from '../components/Education.astro';
+import Courses from '../components/Courses.astro';
+import References from '../components/References.astro';
+import Contact from '../components/Contact.astro';
+
+const pageTitle = 'Brayan Pisso — Machine Learning Engineer | Computer Vision';
+const pageDescription =
+  'Brayan Pisso — Electronic Engineer specialized in Machine Learning and Computer Vision, focused on end-to-end solutions with PyTorch and Amazon SageMaker. Featured project: automatic generation of human vector representations with deep learning.';
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <Hero />
+  <About />
+  <FeaturedProject />
+  <Experience />
+  <Skills />
+  <Education />
+  <Courses />
+  <References />
+  <Contact />
+</BaseLayout>

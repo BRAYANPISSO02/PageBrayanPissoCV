@@ -1,0 +1,82 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const siteUrl = Astro.site ? new URL(base, Astro.site) : undefined;
+const pageUrl = new URL(base, siteUrl ?? 'https://BRAYANPISSO02.github.io');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.fullName,
+  givenName: 'Brayan Ricardo',
+  familyName: 'Pisso Ramírez',
+  jobTitle: SITE.title,
+  description:
+    'Electronics Engineer specialized in Machine Learning and Computer Vision, focused on developing end-to-end solutions with PyTorch and Amazon SageMaker.',
+  email: `mailto:${SITE.email}`,
+  telephone: SITE.phoneDisplay.replace(/\s/g, ''),
+  url: pageUrl.toString(),
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Manizales',
+    addressRegion: 'Caldas',
+    addressCountry: 'CO',
+  },
+  sameAs: [SITE.linkedin, SITE.github],
+  alumniOf: ['Universidad Nacional de Colombia', 'Servicio Nacional de Aprendizaje (SENA)'],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#f4f5f6" />
+    <meta name="color-scheme" content="light" />
+
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="canonical" href={pageUrl.toString()} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.fullName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl.toString()} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <Nav />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>

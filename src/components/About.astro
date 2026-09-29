@@ -1,0 +1,36 @@
+---
+import Icon from './Icon.astro';
+import { ABOUT_ME, ABOUT_CONCEPTS } from '../lib/site';
+---
+
+<section id="about" class="section" aria-labelledby="about-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">About</p>
+      <h2 id="about-title" class="section-title">
+        Electronics engineer specialized in Machine Learning and Computer Vision
+      </h2>
+    </div>
+
+    <div class="about-grid">
+      <div data-reveal style="--d: .08s">
+        <p class="about-text">{ABOUT_ME}</p>
+        <p class="about-note">
+          <Icon name="chip" size={15} strokeWidth={1.9} />
+          {ABOUT_CONCEPTS.length} core concepts from the CV
+        </p>
+      </div>
+
+      <ul class="keyword-grid" data-reveal style="--d: .16s" aria-label="Key concepts">
+        {
+          ABOUT_CONCEPTS.map((concept, i) => (
+            <li class="keyword">
+              <span class="keyword-index">{String(i + 1).padStart(2, '0')}</span>
+              <span class="keyword-label">{concept}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

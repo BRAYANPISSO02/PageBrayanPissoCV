@@ -1,0 +1,28 @@
+---
+import { SKILLS } from '../lib/site';
+---
+
+<section id="skills" class="section" aria-labelledby="skills-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Skills</p>
+      <h2 id="skills-title" class="section-title">Toolbox, by domain</h2>
+    </div>
+
+    <div class="skills-grid">
+      {
+        SKILLS.map((category, i) => (
+          <article class="skill-cat" data-reveal style={`--d: ${0.05 * (i % 3)}s`}>
+            <header class="skill-cat-head">
+              <h3 class="skill-cat-name">{category.name}</h3>
+              <span class="skill-cat-index">{String(i + 1).padStart(2, '0')}</span>
+            </header>
+            <ul class="skill-chips">
+              {category.items.map((skill) => <li><span class="skill-chip">{skill}</span></li>)}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

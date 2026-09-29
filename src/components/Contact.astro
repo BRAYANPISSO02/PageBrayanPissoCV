@@ -1,0 +1,61 @@
+---
+import Icon from './Icon.astro';
+import { SITE, CV_URL } from '../lib/site';
+---
+
+<section id="contact" class="section" aria-labelledby="contact-title">
+  <div class="container">
+    <div class="panel-dark" data-reveal>
+      <div class="contact-inner">
+        <p class="eyebrow eyebrow--light">Contact</p>
+        <h2 id="contact-title" class="contact-heading">{SITE.fullName}</h2>
+        <p class="contact-sub">
+          {SITE.title} — {SITE.location}. Open to end-to-end machine learning and computer vision
+          challenges.
+        </p>
+
+        <div class="contact-main">
+          <dl class="contact-list">
+            <div class="contact-item">
+              <dt>Email</dt>
+              <dd>
+                <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+              </dd>
+            </div>
+            <div class="contact-item">
+              <dt>Phone</dt>
+              <dd>
+                <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>
+              </dd>
+            </div>
+            <div class="contact-item">
+              <dt>Location</dt>
+              <dd>{SITE.location}</dd>
+            </div>
+          </dl>
+
+          <div class="contact-actions">
+            <a class="btn btn--light" href={CV_URL} download>
+              <Icon name="download" size={16} strokeWidth={2.2} />
+              Download CV
+            </a>
+            <a class="btn btn--outline-light" href={SITE.github} target="_blank" rel="noopener noreferrer">
+              <Icon name="github" size={16} strokeWidth={2} />
+              GitHub
+            </a>
+            <a class="btn btn--outline-light" href={SITE.linkedin} target="_blank" rel="noopener noreferrer">
+              <Icon name="linkedin" size={16} strokeWidth={2} />
+              LinkedIn
+            </a>
+          </div>
+
+          <a class="docs-link" href={SITE.docs} target="_blank" rel="noopener noreferrer">
+            <Icon name="folder" size={16} strokeWidth={1.9} />
+            Link to documents
+            <Icon name="external" size={13} strokeWidth={2.1} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

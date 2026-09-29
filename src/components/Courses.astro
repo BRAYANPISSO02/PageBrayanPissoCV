@@ -1,0 +1,29 @@
+---
+import { COURSES } from '../lib/site';
+---
+
+<section id="courses" class="section" aria-labelledby="courses-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Courses</p>
+      <h2 id="courses-title" class="section-title">Certifications</h2>
+    </div>
+
+    <div class="courses-list">
+      {
+        COURSES.map((course, i) => (
+          <article class="course" data-reveal style={`--d: ${0.06 * i}s`}>
+            <span class="course-index">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="course-title">{course.title}</h3>
+              <p class="course-provider">
+                {course.platform} — {course.provider}
+              </p>
+            </div>
+            <span class="course-badge">Certified</span>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
