@@ -35,8 +35,14 @@ const desktopLinks = NAV_LINKS.filter((link) => link.desktop !== false);
       </ul>
     </nav>
 
+    {/*
+      Both glyphs ship in the markup and the CSS picks one from the button's
+      own `aria-expanded`, so the swap needs no JavaScript, cannot desync from
+      the ARIA state, and costs one CSS rule instead of a re-render.
+    */}
     <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-mobile" aria-label="Open menu">
-      <Icon name="menu" size={20} strokeWidth={2} />
+      <span class="nav-toggle-icon" data-icon="menu"><Icon name="menu" size={20} strokeWidth={2} /></span>
+      <span class="nav-toggle-icon" data-icon="close"><Icon name="close" size={20} strokeWidth={2} /></span>
     </button>
   </div>
 

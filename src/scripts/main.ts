@@ -1,6 +1,7 @@
 /**
  * Minimal progressive-enhancement script.
- * - Mobile nav toggle (aria-expanded aware, closes on link click / Escape)
+ * - Mobile nav toggle (aria-expanded aware, closes on link click / Escape,
+ *   and returns focus to the toggle when dismissed with Escape)
  * - Reveal-on-scroll via IntersectionObserver with staggered delays
  */
 
@@ -29,8 +30,16 @@ mobilePanel?.addEventListener('click', (event) => {
   if (target && target.closest('a')) setNavOpen(false);
 });
 
+// Dismissing with Escape closes the panel the button owns, so focus has to go
+// back to that button — otherwise the next Tab starts from the top of the
+// document and a keyboard user is stranded (WCAG 2.4.3 focus order).
+// Only Escape does this: closing via a link click or a viewport resize must
+// not yank focus away from wherever the user actually is.
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') setNavOpen(false);
+  if (event.key !== 'Escape') return;
+  if (!toggle || toggle.getAttribute('aria-expanded') !== 'true') return;
+  setNavOpen(false);
+  toggle.focus();
 });
 
 window.addEventListener('resize', () => {

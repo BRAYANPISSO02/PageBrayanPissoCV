@@ -418,6 +418,26 @@ p {
   pointer-events: none;
 }
 
+/* Hamburger <-> X is driven by `aria-expanded`, not by JS, so the visible
+   glyph can never disagree with the state announced to assistive tech. */
+.nav-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-toggle-icon[data-icon='close'] {
+  display: none;
+}
+
+.nav-toggle[aria-expanded='true'] .nav-toggle-icon[data-icon='menu'] {
+  display: none;
+}
+
+.nav-toggle[aria-expanded='true'] .nav-toggle-icon[data-icon='close'] {
+  display: inline-flex;
+}
+
 .nav-mobile {
   display: none;
 }
