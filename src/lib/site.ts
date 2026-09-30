@@ -2,6 +2,11 @@
  * Single source of truth for all factual content.
  * Every fact here comes exclusively from the CV document
  * (Brayan_Ricardo_Pisso_Ramirez_CV.pdf). Do NOT add invented content.
+ *
+ * Promotion rule for the stack: an item may enter it only if it appears
+ * verbatim in the CV, anywhere — skills list, body text or project prose.
+ * `CNNs` and `Segment Anything Model (SAM)` qualify on body text, which is why
+ * they sit in Tier 1 beside PyTorch.
  */
 
 export const SITE = {
@@ -133,57 +138,90 @@ export const EDUCATION: readonly EducationItem[] = [
   },
 ];
 
-export interface SkillCategory {
-  name: string;
+export interface StackTier {
+  label: string;
   items: readonly string[];
 }
 
-/** Skills grouped into visual categories. Only technologies from the CV. */
-export const SKILLS: readonly SkillCategory[] = [
+/**
+ * Three peer tiers, ordered by how they answer an ML-engineer screen. The
+ * tier labels are editorial and must carry an `EDITORIAL_ALLOWLIST` entry
+ * once the provenance gate reads this file.
+ *
+ * Bare `AWS` is dropped: it is the parent of four listed chips, not a peer of
+ * them. `Git` joins Programming because the CV lists it with the programming
+ * languages.
+ */
+export const STACK_PRIMARY: readonly StackTier[] = [
   {
-    name: 'Machine Learning & AI',
-    items: ['PyTorch', 'TensorFlow / Keras', 'Machine Learning', 'Computer Vision'],
-  },
-  {
-    name: 'Cloud & Infrastructure',
-    items: ['AWS', 'Amazon SageMaker', 'AWS Lambda', 'Amazon Bedrock', 'Amazon S3', 'Docker'],
-  },
-  {
-    name: 'Programming',
-    items: ['Python', 'Rust', 'C', 'C++'],
-  },
-  {
-    name: 'Development',
-    items: ['Git'],
-  },
-  {
-    name: 'Embedded Systems',
-    items: ['STM32', 'ESP32', 'BeaglePlay', 'Raspberry Pi'],
-  },
-  {
-    name: 'Engineering & Design',
-    items: ['MATLAB', 'AutoCAD', 'Proteus', 'Multisim', 'KiCad'],
-  },
-  {
-    name: 'Manufacturing',
-    items: ['CNC Router', 'CNC Laser'],
-  },
-  {
-    name: 'Languages',
-    items: ['English — B2 (CEFR)', 'Spanish — Native'],
-  },
-  {
-    name: 'Soft Skills',
+    label: 'Machine Learning & Computer Vision',
     items: [
-      'Proactivity and initiative',
-      'Needs analysis',
-      'Effective communication',
-      'Resilience',
-      'Teamwork',
-      'Leadership',
+      'PyTorch',
+      'TensorFlow / Keras',
+      'Machine Learning',
+      'Computer Vision',
+      'CNNs',
+      'Segment Anything Model (SAM)',
+      'Deep Learning',
     ],
   },
-];
+  {
+    label: 'Cloud & MLOps',
+    items: ['Amazon SageMaker', 'Amazon S3', 'AWS Lambda', 'Amazon Bedrock', 'Docker'],
+  },
+  {
+    label: 'Programming',
+    items: ['Python', 'Rust', 'C', 'C++', 'Git'],
+  },
+] as const;
+
+export interface StackBand {
+  /**
+   * One framing sentence tying the band to the telemetry project. Editorial,
+   * so it must carry an `EDITORIAL_ALLOWLIST` entry; every clause traces to
+   * the redacted extract at `scripts/fixtures/cv.txt`.
+   */
+  note: string;
+  items: readonly string[];
+}
+
+/**
+ * The demoted band. Electronics, embedded and hardware are real and provable,
+ * but a peer chip beside PyTorch dilutes the ML signal, so they render once,
+ * below the tiers, at a lower weight. Language proficiency lives here too: it
+ * is CV-verifiable and there is no fourth tier to put it in.
+ */
+export const STACK_SECONDARY: StackBand = {
+  note: 'Long-Range Telemetry Project: long-distance data acquisition over Wi-Fi HaLow connectivity, with integration into the ThingsBoard IoT monitoring and management platform.',
+  items: [
+    'STM32',
+    'ESP32',
+    'BeaglePlay',
+    'Raspberry Pi',
+    'MATLAB',
+    'AutoCAD',
+    'Proteus',
+    'Multisim',
+    'KiCad',
+    'CNC Router',
+    'CNC Laser',
+    'English — B2 (CEFR)',
+    'Spanish — Native',
+  ],
+} as const;
+
+/**
+ * Six soft skills, rendered as one low-emphasis strip rather than chips: they
+ * are the weakest kind of evidence on the page and must not read as a tier.
+ */
+export const SOFT_SKILLS: readonly string[] = [
+  'Proactivity and initiative',
+  'Needs analysis',
+  'Effective communication',
+  'Resilience',
+  'Teamwork',
+  'Leadership',
+] as const;
 
 export interface CourseItem {
   title: string;
