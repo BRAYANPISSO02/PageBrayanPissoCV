@@ -1317,22 +1317,191 @@ p {
   margin-top: 30px;
 }
 
-.docs-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 26px;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--panel-accent);
+/* ---------- Documents ---------- */
+/*
+   Sits on `.panel-dark`, so every colour here comes from the `--panel-*`
+   family. Those tokens are the light-mode accent in BOTH schemes, which is why
+   the names are role-based and not colour-based.
+*/
+.docs {
+  margin-top: 40px;
+  padding-top: 34px;
+  border-top: 1px solid var(--panel-line);
 }
 
-.docs-link:hover {
+.docs-heading {
+  font-size: 1.14rem;
+  font-weight: 700;
+  letter-spacing: -0.012em;
   color: var(--panel-ink);
+}
+
+.docs-intro {
+  margin-top: 9px;
+  max-width: 56ch;
+  font-size: 0.95rem;
+  color: var(--panel-ink-2);
+}
+
+.docs-list {
+  list-style: none;
+  margin-top: 20px;
+}
+
+/*
+   Two layouts from one rule set. In `mailto` mode the row is title-and-action
+   side by side; in `form` mode the form is the second grid child and spans the
+   full width. `flex-wrap` rather than a media query does the switch, so the
+   narrow-screen case falls out of the same declaration instead of needing a
+   second rule that can drift from the first.
+*/
+.doc {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 17px 0;
+  border-top: 1px solid var(--panel-line);
+}
+
+.doc:last-child {
+  border-bottom: 1px solid var(--panel-line);
+}
+
+.doc-text {
+  min-width: 0;
+}
+
+/*
+   Title and kind sit on one line because the kind qualifies the title; a block
+   gap between them would read as two separate facts.
+*/
+.doc-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--panel-ink);
+}
+
+.doc-kind {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--panel-ink-2);
+}
+
+.doc-note {
+  margin-top: 5px;
+  max-width: 52ch;
+  font-size: 0.88rem;
+  color: var(--panel-ink-2);
+}
+
+/* Never let a long note push the action off a narrow screen. */
+.doc-action {
+  flex-shrink: 0;
+}
+
+.doc-form {
+  display: grid;
+  gap: 14px;
+  flex: 1 1 340px;
+  max-width: 520px;
+}
+
+.doc-form .field {
+  display: grid;
+  gap: 6px;
+}
+
+.doc-form label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--panel-ink-2);
+}
+
+/*
+   Inputs sit on the dark panel, so the fill is `--panel-bg` rather than a light
+   `--surface` — a white field on a near-black panel is a slab, and R-26 already
+   rejected that move for `.btn--light`.
+
+   The border is `color-mix`ed up to clear the 3:1 non-text floor rather than
+   taken from `--panel-line-strong`, which composites to 1.84:1 light / 1.90:1
+   dark and is only ever a hairline elsewhere. A text input's boundary IS the
+   control, so it has to be visible, and 55% measures 3.3063:1 light /
+   3.9463:1 dark. Same expression, same result in both schemes, no new token.
+*/
+.doc-form input,
+.doc-form textarea {
+  width: 100%;
+  padding: 10px 13px;
+  border: 1px solid color-mix(in srgb, var(--panel-ink-2) 55%, var(--panel-bg));
+  border-radius: var(--radius-s);
+  background: var(--panel-bg);
+  color: var(--panel-ink);
+  font: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.18s var(--ease);
+}
+
+.doc-form input:focus-visible,
+.doc-form textarea:focus-visible {
+  outline: 2px solid var(--panel-accent);
+  outline-offset: 2px;
+  border-color: var(--panel-accent);
+}
+
+.doc-form textarea {
+  resize: vertical;
+}
+
+/* The submit button matches the entry it belongs to, so it aligns to the row. */
+.doc-submit {
+  justify-self: start;
+}
+
+/*
+   Off-screen rather than `display: none`, so it stays in the accessibility
+   tree as a real field and is ignored only by a bot that reads the form
+   visually. Paired with `tabindex="-1"` and `aria-hidden` in the markup.
+*/
+.field--trap {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.docs-privacy {
+  margin-top: 22px;
+  max-width: 62ch;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--panel-ink-2);
 }
 
 @media (max-width: 760px) {
   .contact-main {
+    max-width: none;
+  }
+
+  .doc {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .doc-form {
     max-width: none;
   }
 }

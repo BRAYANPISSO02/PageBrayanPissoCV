@@ -1,0 +1,160 @@
+---
+/**
+ * The document catalog and the channel for asking for one.
+ *
+ * Rendered inside the Contact panel rather than as its own `<section>`, so the
+ * page keeps the exact eight section ids the nav is built from. A ninth id
+ * would be a nav target with no link and a link with no target.
+ *
+ * Nothing here can leak a document location. `DocumentEntry` has no `href`
+ * field to fill in, and the only URLs the component can emit are `mailto:` and,
+ * on the inactive branch, the configured form endpoint.
+ */
+import Icon from './Icon.astro';
+import { DOC_REQUEST, DOC_REQUEST_COPY, SITE } from '../lib/site';
+
+const { mode, documents } = DOC_REQUEST;
+
+/**
+ * The request body, built the same way whichever entry was clicked.
+ *
+ * The identity line is appended with nothing after it on purpose: the visitor
+ * types into their own mail client, and the line is there to show them where. A
+ * prefilled value would look like the site already knows who they are, which is
+ * exactly the impression the copy has to avoid.
+ */
+const mailBody = (title: string) =>
+  [
+    DOC_REQUEST_COPY.mailGreeting,
+    '',
+    `I would like to request: ${title}.`,
+    '',
+    DOC_REQUEST_COPY.mailIdentityLine,
+    '',
+    '',
+  ].join('\n');
+
+/** `mailto:` is assembled here so no component has to know the URL's shape. */
+const mailHref = (title: string) =>
+  `mailto:${SITE.email}` +
+  `?subject=${encodeURIComponent(DOC_REQUEST_COPY.mailSubject)}` +
+  `&body=${encodeURIComponent(mailBody(title))}`;
+
+/**
+ * Form ids are derived from the title so two entries cannot collide, and so no
+ * `<label for>` can point at a field belonging to a different document.
+ */
+const fieldId = (title: string, field: string) =>
+  `doc-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${field}`;
+
+/**
+ * The privacy note, worded for the mode that actually ships.
+ *
+ * Under `mailto:` the message never leaves the visitor's own mail client, so
+ * naming a service would describe a data flow that does not exist. Under `form`
+ * the endpoint's host is the processor and has to be named — that is the whole
+ * reason the two branches exist rather than one generic paragraph.
+ */
+const privacyNote =
+  mode === 'form'
+    ? `${DOC_REQUEST_COPY.privacy} Your details go straight to the form service at ${new URL(DOC_REQUEST.endpoint).host}, which processes them on my behalf. ${DOC_REQUEST_COPY.decline}`
+    : `${DOC_REQUEST_COPY.privacy} The message opens in your own email app and reaches me directly, with no service in between. ${DOC_REQUEST_COPY.decline}`;
+---
+
+<div class="docs" data-reveal>
+  <h3 class="docs-heading">{DOC_REQUEST_COPY.heading}</h3>
+  <p class="docs-intro">{DOC_REQUEST_COPY.intro}</p>
+
+  <ul class="docs-list">
+    {
+      documents.map((doc) => (
+        <li class="doc">
+          <div class="doc-text">
+            <p class="doc-title">
+              {doc.title}
+              <span class="doc-kind">{doc.kind}</span>
+            </p>
+            <p class="doc-note">{doc.note}</p>
+          </div>
+
+          {mode === 'mailto' ? (
+            <a class="btn btn--outline-light doc-action" href={mailHref(doc.title)}>
+              <Icon name="arrow-right" size={16} strokeWidth={2} />
+              {DOC_REQUEST_COPY.action}
+            </a>
+          ) : (
+            /*
+             * The form lives inside the entry it belongs to rather than once
+             * for the whole list. A single shared form would leave the visitor
+             * to say which document they mean in prose, and the per-entry
+             * `Request` control would have to be a link to a scroll position —
+             * an in-page anchor with no element to land on, which is the same
+             * dangling-target defect the nav audit looks for. One form per
+             * entry also carries the document title as a real field, so the
+             * endpoint is never told to guess.
+             */
+            <form class="doc-form" method="POST" action={DOC_REQUEST.endpoint} data-doc-request>
+              {DOC_REQUEST.accessKey && (
+                <input type="hidden" name="access_key" value={DOC_REQUEST.accessKey} />
+              )}
+              <input type="hidden" name="document" value={doc.title} />
+
+              <p class="field">
+                <label for={fieldId(doc.title, 'name')}>Name</label>
+                <input
+                  id={fieldId(doc.title, 'name')}
+                  name="name"
+                  type="text"
+                  autocomplete="name"
+                  required
+                />
+              </p>
+
+              <p class="field">
+                <label for={fieldId(doc.title, 'email')}>Email</label>
+                <input
+                  id={fieldId(doc.title, 'email')}
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                />
+              </p>
+
+              <p class="field">
+                <label for={fieldId(doc.title, 'message')}>Message (optional)</label>
+                <textarea id={fieldId(doc.title, 'message')} name="message" rows={3} />
+              </p>
+
+              {/*
+                A real label and a real input, off-screen rather than
+                `display: none`, and paired with `tabindex="-1"`. Hidden
+                fields are what a bot that reads the markup ignores, so this
+                one is present, labelled and unfocusable. It carries no
+                `required`, so a human is never blocked by it; a bot that
+                fills every field submits a value the server can discard.
+              */}
+              <p class="field field--trap" aria-hidden="true">
+                <label for={fieldId(doc.title, 'company')}>Company</label>
+                <input
+                  id={fieldId(doc.title, 'company')}
+                  name="company"
+                  type="text"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </p>
+
+              <button class="btn btn--light doc-submit" type="submit">
+                <Icon name="arrow-right" size={16} strokeWidth={2.2} />
+                {DOC_REQUEST_COPY.action}
+              </button>
+            </form>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="docs-privacy">{privacyNote}</p>
+</div>

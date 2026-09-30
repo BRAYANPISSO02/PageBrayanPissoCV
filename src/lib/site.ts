@@ -25,8 +25,6 @@ export const SITE = {
   linkedin:
     'https://www.linkedin.com/in/brayan-ricardo-pisso-ramirez-8a089a363',
   github: 'https://github.com/BRAYANPISSO02',
-  docs:
-    'https://drive.google.com/drive/folders/1gq-mUJ3unNOivBP7oHyEAeMZfHrIhP75?usp=sharing',
 } as const;
 
 /** PDF filename served from /public (copied to dist/ as-is at build time). */
@@ -269,6 +267,102 @@ export const REFERENCES: readonly ReferenceItem[] = [
 ];
 
 export const REFERENCES_NOTE = 'References contacts available upon request';
+
+/**
+ * One document the owner is willing to hand over, described but never linked.
+ *
+ * There is deliberately no `href`, `path` or `url` field. A document link is
+ * not merely discouraged here, it is unrepresentable: adding the field is a
+ * type error. That is the structural closure of the Drive-exposure class — the
+ * design's answer to "the folder link is one permission change away from being
+ * public" is that the site has no place to put a link, not a rule saying not
+ * to add one.
+ */
+export interface DocumentEntry {
+  readonly title: string;
+  /** What the file is, so the reader knows what they are asking for. */
+  readonly kind: string;
+  /** One line on what it covers and when it was last current. */
+  readonly note: string;
+}
+
+/**
+ * A data-only switch, discriminated so the inactive path is type-enforced.
+ *
+ * `mode: 'form'` requires an `endpoint`; there is no way to write a form config
+ * without naming where the data goes, and no way to write a `mailto` config
+ * that carries one. Flipping the mode is an edit to this object and nothing
+ * else: no component, no CSS, no template.
+ *
+ * The endpoint stays absent. Turning the form on means a commercial third party
+ * lands in a visitor's personal-data path and in page source, which is a
+ * decision for the owner to make deliberately, not a default to inherit.
+ */
+export type DocRequestConfig =
+  | {
+      readonly mode: 'mailto';
+      readonly documents: readonly DocumentEntry[];
+    }
+  | {
+      readonly mode: 'form';
+      readonly endpoint: string;
+      /** Only read by the form branch; never serialised anywhere else. */
+      readonly accessKey?: string;
+      readonly documents: readonly DocumentEntry[];
+    };
+
+/**
+ * Copy for the document-request channel.
+ *
+ * `DOC_REQUEST_COPY` is separate from `DOC_REQUEST` so the union above carries
+ * only facts, and the wording lives in one place a reviewer can read end to end.
+ *
+ * Two constraints shape this wording. It must never imply the site can verify
+ * anyone: there are no accounts, no login and no signature, so whatever a
+ * visitor types is self-reported and the honest phrasing is a request to
+ * identify themselves, not a check that passes. And the privacy note has to
+ * match the mode that actually ships — under `mailto:` nothing leaves the
+ * visitor's own mail client for a processor to see, and claiming otherwise
+ * would misdescribe where their name and email go.
+ */
+export const DOC_REQUEST_COPY = {
+  heading: 'Documents',
+  /** Shown above the catalog. Names the mechanism, not a security claim. */
+  intro: 'Documents are shared on request. Tell me who you are and which one you need, and I will send it over.',
+  /** The per-entry action. A verb, not a promise of a download. */
+  action: 'Request',
+  /** `mailto:` body preamble; the identity block is appended by the component. */
+  mailSubject: 'Document request',
+  mailGreeting: 'Hello Brayan,',
+  /** Left blank on purpose: it is the visitor's line to fill in. */
+  mailIdentityLine: 'Your name / your email:',
+  /**
+   * Shown under both modes. The third-party clause is supplied by the
+   * component, which knows the mode; naming a service here would be a claim
+   * that is wrong the moment `mode` changes.
+   */
+  privacy: 'Send me only your name and email address, and only what the document needs. No cookies and no tracking are used on this site.',
+  /** Consent, stated as the owner's right rather than a soft promise. */
+  decline: 'You can also say no, and nothing will be sent.',
+} as const;
+
+/**
+ * Ships in `mailto:` mode, which is why the form branch needs no endpoint here.
+ *
+ * One entry, because one is what the owner is actually prepared to send. A
+ * second entry would need a PDF-traceable title or an allowlist entry under
+ * R-45, which is the point: the catalog cannot grow by accident.
+ */
+export const DOC_REQUEST: DocRequestConfig = {
+  mode: 'mailto',
+  documents: [
+    {
+      title: 'Curriculum Vitae',
+      kind: 'PDF',
+      note: 'Machine learning and computer vision profile, project and academic record.',
+    },
+  ],
+};
 
 export interface NavLink {
   label: string;

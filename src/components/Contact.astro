@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Documents from './Documents.astro';
 import { SITE, CV_URL } from '../lib/site';
 import { CV_AVAILABLE } from '../lib/cv';
 ---
@@ -53,13 +54,15 @@ import { CV_AVAILABLE } from '../lib/cv';
               LinkedIn
             </a>
           </div>
-
-          <a class="docs-link" href={SITE.docs} target="_blank" rel="noopener noreferrer">
-            <Icon name="folder" size={16} strokeWidth={1.9} />
-            Link to documents
-            <Icon name="external" size={13} strokeWidth={2.1} />
-          </a>
         </div>
+
+        {/*
+          The document catalog lives here, not in its own section. A ninth
+          `<section id>` would be a nav target with no link and no link with no
+          target, and this content is part of the contact exchange anyway: the
+          only way to get a document is to start a conversation.
+        */}
+        <Documents />
       </div>
     </div>
   </div>
