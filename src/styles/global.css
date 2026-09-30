@@ -174,7 +174,7 @@ a:hover {
 
 ::selection {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-ink);
 }
 
 ul,
@@ -199,7 +199,7 @@ p {
   z-index: 100;
   padding: 10px 16px;
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
   border-radius: var(--radius-s);
   font-size: 0.875rem;
   font-weight: 600;
@@ -280,7 +280,7 @@ p {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(244, 245, 246, 0.85);
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
@@ -323,7 +323,7 @@ p {
 .brand-mark::after {
   content: '';
   position: absolute;
-  background: #fff;
+  background: var(--on-ink);
 }
 
 .brand-mark::before {
@@ -338,7 +338,14 @@ p {
   height: 1.5px;
   top: 9px;
   left: 2px;
-  background: linear-gradient(90deg, #fff 0 5px, transparent 5px 6px, #fff 6px 8px, transparent 8px 9px, #fff 9px);
+  background: linear-gradient(
+      90deg,
+      var(--on-ink) 0 5px,
+      transparent 5px 6px,
+      var(--on-ink) 6px 8px,
+      transparent 8px 9px,
+      var(--on-ink) 9px
+    );
 }
 
 .nav-desktop {
@@ -376,15 +383,15 @@ p {
   margin-left: 6px;
   border-radius: 999px;
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
   font-size: 0.85rem;
   font-weight: 600;
   transition: background-color 0.18s var(--ease), transform 0.18s var(--ease);
 }
 
 .nav-cta:hover {
-  background: #1d232c;
-  color: #fff;
+  background: color-mix(in srgb, var(--ink) 86%, var(--bg));
+  color: var(--on-ink);
   text-decoration: none;
   transform: translateY(-1px);
 }
@@ -461,13 +468,13 @@ p {
     padding: 11px 18px;
     border-radius: 999px;
     background: var(--ink);
-    color: #fff;
+    color: var(--on-ink);
     font-weight: 600;
   }
 
   .nav-mobile .nav-mobile-cta:hover {
-    background: #1d232c;
-    color: #fff;
+    background: color-mix(in srgb, var(--ink) 86%, var(--bg));
+    color: var(--on-ink);
     text-decoration: none;
   }
 }
@@ -500,12 +507,12 @@ p {
 
 .btn--primary {
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
 }
 
 .btn--primary:hover {
-  background: #242b34;
-  color: #fff;
+  background: color-mix(in srgb, var(--ink) 86%, var(--bg));
+  color: var(--on-ink);
   box-shadow: var(--shadow-sm);
 }
 
@@ -531,13 +538,13 @@ p {
 }
 
 .btn--light {
-  background: #ffffff;
-  color: var(--ink);
+  background: var(--panel-solid);
+  color: var(--on-panel-solid);
 }
 
 .btn--light:hover {
-  background: #e8eaee;
-  color: var(--ink);
+  background: color-mix(in srgb, var(--panel-solid) 90%, var(--panel-ink));
+  color: var(--on-panel-solid);
 }
 
 .btn--outline-light {
@@ -547,8 +554,8 @@ p {
 }
 
 .btn--outline-light:hover {
-  border-color: rgba(255, 255, 255, 0.55);
-  color: #fff;
+  border-color: color-mix(in srgb, var(--panel-ink) 55%, var(--panel-bg));
+  color: var(--panel-ink);
 }
 
 .btn--sm {
@@ -641,7 +648,7 @@ p {
    `.chip:hover` would otherwise turn them accent-blue on a near-black fill. */
 .chip--on-panel {
   border-color: var(--panel-line-strong);
-  background: rgba(255, 255, 255, 0.05);
+  background: color-mix(in srgb, var(--panel-ink) 5%, var(--panel-bg));
   color: var(--panel-ink-2);
 }
 
@@ -726,7 +733,7 @@ p {
   justify-content: space-between;
   gap: 14px;
   padding: 18px 20px;
-  background: var(--panel);
+  background: var(--panel-bg);
   color: var(--panel-ink);
 }
 
@@ -755,87 +762,11 @@ p {
   }
 }
 
-/* ---------- About ---------- */
-.about-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: clamp(36px, 5vw, 64px);
-  align-items: start;
-}
-
-.about-text {
-  font-size: 1.04rem;
-  color: var(--ink-2);
-}
-
-.about-text strong {
-  color: var(--ink);
-  font-weight: 650;
-}
-
-.about-note {
-  margin-top: 22px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  color: var(--ink-3);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.about-note svg {
-  flex: none;
-}
-
-.keyword-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-.keyword {
-  display: flex;
-  align-items: baseline;
-  gap: 11px;
-  padding: 15px 17px;
-  background: var(--surface);
-  transition: background-color 0.18s var(--ease);
-}
-
-.keyword:hover {
-  background: var(--accent-soft);
-}
-
-.keyword-index {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--accent-text);
-}
-
-.keyword-label {
-  font-size: 0.89rem;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-@media (max-width: 760px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ---------- Dark panels (Featured project, Contact) ---------- */
 .panel-dark {
   position: relative;
   border-radius: var(--radius-lg);
-  background: var(--panel);
+  background: var(--panel-bg);
   color: var(--panel-ink);
   overflow: hidden;
 }
@@ -872,15 +803,6 @@ p {
   color: var(--panel-ink);
 }
 
-.featured-meta {
-  margin-top: 16px;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--panel-ink-2);
-}
-
 .featured-summary {
   margin-top: 20px;
   max-width: 78ch;
@@ -899,7 +821,7 @@ p {
   padding: 24px 24px 26px;
   border: 1px solid var(--panel-line);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.035);
+  background: color-mix(in srgb, var(--panel-ink) 3.5%, var(--panel-bg));
 }
 
 .case-index {
@@ -933,8 +855,8 @@ p {
 }
 
 .case-cell--impact {
-  background: rgba(126, 160, 255, 0.07);
-  border-color: rgba(126, 160, 255, 0.34);
+  background: color-mix(in srgb, var(--panel-accent) 7%, var(--panel-bg));
+  border-color: color-mix(in srgb, var(--panel-accent) 34%, var(--panel-bg));
 }
 
 .case-impact-value {
@@ -1386,7 +1308,7 @@ p {
 }
 
 .docs-link:hover {
-  color: #fff;
+  color: var(--panel-ink);
 }
 
 @media (max-width: 760px) {
