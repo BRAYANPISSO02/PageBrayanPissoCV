@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { SITE, CV_URL } from '../lib/site';
+import { CV_AVAILABLE } from '../lib/cv';
 ---
 
 <section id="contact" class="section" aria-labelledby="contact-title">
@@ -35,10 +36,14 @@ import { SITE, CV_URL } from '../lib/site';
           </dl>
 
           <div class="contact-actions">
-            <a class="btn btn--light" href={CV_URL} download>
-              <Icon name="download" size={16} strokeWidth={2.2} />
-              Download CV
-            </a>
+            {
+              CV_AVAILABLE && (
+                <a class="btn btn--light" href={CV_URL} download>
+                  <Icon name="download" size={16} strokeWidth={2.2} />
+                  Download CV
+                </a>
+              )
+            }
             <a class="btn btn--outline-light" href={SITE.github} target="_blank" rel="noopener noreferrer">
               <Icon name="github" size={16} strokeWidth={2} />
               GitHub

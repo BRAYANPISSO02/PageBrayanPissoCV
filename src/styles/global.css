@@ -498,7 +498,7 @@ p {
   color: var(--accent-text);
 }
 
-.hero-desc {
+.hero-value {
   margin-top: 22px;
   max-width: 62ch;
   font-size: 1.07rem;

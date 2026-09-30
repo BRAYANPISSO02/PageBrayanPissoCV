@@ -9,8 +9,9 @@ import Education from '../components/Education.astro';
 import Courses from '../components/Courses.astro';
 import References from '../components/References.astro';
 import Contact from '../components/Contact.astro';
+import { SITE } from '../lib/site';
 
-const pageTitle = 'Brayan Pisso — Machine Learning Engineer | Computer Vision';
+const pageTitle = `${SITE.displayName} — ${SITE.targetRole} | Computer Vision`;
 const pageDescription =
   'Brayan Pisso — Electronic Engineer specialized in Machine Learning and Computer Vision, focused on end-to-end solutions with PyTorch and Amazon SageMaker. Featured project: automatic generation of human vector representations with deep learning.';
 ---

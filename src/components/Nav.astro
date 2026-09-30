@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { NAV_LINKS, CV_URL } from '../lib/site';
+import { CV_AVAILABLE } from '../lib/cv';
 ---
 
 <header class="site-header" data-nav>
@@ -19,12 +20,16 @@ import { NAV_LINKS, CV_URL } from '../lib/site';
             </li>
           ))
         }
-        <li>
-          <a class="nav-cta" href={CV_URL} download>
-            <Icon name="download" size={15} strokeWidth={2.2} />
-            CV
-          </a>
-        </li>
+        {
+          CV_AVAILABLE && (
+            <li>
+              <a class="nav-cta" href={CV_URL} download>
+                <Icon name="download" size={15} strokeWidth={2.2} />
+                CV
+              </a>
+            </li>
+          )
+        }
       </ul>
     </nav>
 
@@ -44,12 +49,16 @@ import { NAV_LINKS, CV_URL } from '../lib/site';
               </li>
             ))
           }
-          <li>
-            <a class="nav-mobile-cta" href={CV_URL} download>
-              <Icon name="download" size={16} strokeWidth={2.2} />
-              Download CV (PDF)
-            </a>
-          </li>
+          {
+            CV_AVAILABLE && (
+              <li>
+                <a class="nav-mobile-cta" href={CV_URL} download>
+                  <Icon name="download" size={16} strokeWidth={2.2} />
+                  Download CV (PDF)
+                </a>
+              </li>
+            )
+          }
         </ul>
       </nav>
     </div>

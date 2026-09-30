@@ -8,7 +8,11 @@ export const SITE = {
   displayName: 'Brayan Pisso',
   fullName: 'Brayan Ricardo Pisso Ramírez',
   title: 'Electronic Engineer',
-  tagline: 'Machine Learning · Computer Vision · End-to-End AI',
+  /**
+   * Positioning, not a CV claim. The CV lists the degree, never a job title, so
+   * `title` above stays the PDF truth and this is the role the page is aimed at.
+   */
+  targetRole: 'Machine Learning Engineer',
   location: 'Manizales, Caldas, Colombia',
   email: 'bpisso@unal.edu.co',
   phoneDisplay: '+57 3152162946',
@@ -25,6 +29,27 @@ export const CV_FILENAME = 'Brayan_Ricardo_Pisso_Ramirez_CV.pdf';
 
 /** Absolute path to the served PDF, base-aware (works under GitHub Pages). */
 export const CV_URL = import.meta.env.BASE_URL + CV_FILENAME;
+
+/**
+ * The single Hero value sentence: actor + measured outcome, no claim the CV
+ * does not carry.
+ *
+ * This is an editorial composition, not a verbatim quote, so it must carry an
+ * `EDITORIAL_ALLOWLIST` entry once the provenance gate reads this file. Every
+ * fragment traces to the redacted extract at `scripts/fixtures/cv.txt`:
+ *
+ * - "computer vision", "end-to-end solutions" — About
+ * - "dataset construction", "supervised model training",
+ *   "deploying solutions using PyTorch and Amazon SageMaker" — About
+ * - "microenterprise", "manual design time by approximately two hours per
+ *   image" — featured project
+ *
+ * The actor is named with the CV's own noun rather than a synonym, so the
+ * outcome has something real attached to it. `≈ 2 hours per image` is the only
+ * number-shaped performance claim allowed on the page.
+ */
+export const HERO_VALUE =
+  'Builds computer vision models end-to-end — dataset construction, PyTorch training, SageMaker deployment — cutting ≈ 2 hours of manual design time per image for a microenterprise.';
 
 export const ABOUT_ME =
   'Electronics Engineer specialized in Machine Learning and Computer Vision, with a focus on developing end-to-end solutions. Expertise in dataset construction, supervised model training, and deploying solutions using PyTorch and Amazon SageMaker. Experience in image classification projects using convolutional neural networks and in developing automated vector representation generation systems applied to design processes in real-world environments, significantly reducing manual design time. Knowledge of data acquisition systems and wireless communications (WiFi HaLow and MESH Networks) applied to production environments. Focused on process automation through artificial intelligence and real-world problem solving.';
