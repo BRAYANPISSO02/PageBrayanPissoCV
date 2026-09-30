@@ -51,22 +51,6 @@ export const CV_URL = import.meta.env.BASE_URL + CV_FILENAME;
 export const HERO_VALUE =
   'Builds computer vision models end-to-end — dataset construction, PyTorch training, SageMaker deployment — cutting ≈ 2 hours of manual design time per image for a microenterprise.';
 
-export const ABOUT_ME =
-  'Electronics Engineer specialized in Machine Learning and Computer Vision, with a focus on developing end-to-end solutions. Expertise in dataset construction, supervised model training, and deploying solutions using PyTorch and Amazon SageMaker. Experience in image classification projects using convolutional neural networks and in developing automated vector representation generation systems applied to design processes in real-world environments, significantly reducing manual design time. Knowledge of data acquisition systems and wireless communications (WiFi HaLow and MESH Networks) applied to production environments. Focused on process automation through artificial intelligence and real-world problem solving.';
-
-/** Key concepts from the CV, split visually in the About section. */
-export const ABOUT_CONCEPTS = [
-  'Machine Learning',
-  'Computer Vision',
-  'End-to-End Solutions',
-  'PyTorch',
-  'Amazon SageMaker',
-  'Dataset Construction',
-  'Data Acquisition',
-  'Wireless Communications',
-  'Process Automation',
-] as const;
-
 export interface ExperienceItem {
   title: string;
   org: string;

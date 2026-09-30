@@ -144,6 +144,15 @@ p {
   margin-bottom: clamp(36px, 5vw, 56px);
 }
 
+/* One-line framing sentence under a section heading. */
+.section-sub {
+  max-width: 62ch;
+  margin-top: -20px;
+  margin-bottom: clamp(28px, 4vw, 44px);
+  font-size: 1.04rem;
+  color: var(--ink-2);
+}
+
 .eyebrow {
   display: inline-flex;
   align-items: center;
