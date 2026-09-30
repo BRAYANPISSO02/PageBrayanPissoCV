@@ -11,6 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
+    "check:privacy": "node scripts/check-privacy.mjs",
+    "check:budget": "node scripts/check-budget.mjs",
     "og": "node scripts/generate-og-image.mjs"
   },
   "dependencies": {
