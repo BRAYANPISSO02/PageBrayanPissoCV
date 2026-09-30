@@ -17,6 +17,15 @@ pnpm-debug.log*
 .env
 .env.production
 
+# --- PRIVACY: never commit CV PDFs ---
+# The source CV at the repo root contains a national ID number (CC) and a
+# handwritten signature. It must stay local only.
+# The clean, redacted copy intended for publication goes in public/ and is
+# the ONLY PDF allowed in the published site.
+*.pdf
+!public/*.pdf
+/Brayan_Ricardo_Pisso_Ramirez_CV.pdf
+
 # macOS-specific files
 .DS_Store
 
