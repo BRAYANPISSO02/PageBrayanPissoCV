@@ -252,14 +252,25 @@ export interface NavLink {
   label: string;
   href: string;
   sectionId: string;
+  /**
+   * `false` keeps the entry in the mobile menu but out of the desktop bar.
+   * Used where the section is real and worth reaching but the bar is already
+   * carrying enough weight at narrow desktop widths.
+   */
+  desktop?: boolean;
 }
 
+/**
+ * One entry per rendered section, in document order, so a nav link can never
+ * point at a section that no longer exists.
+ */
 export const NAV_LINKS: readonly NavLink[] = [
   { label: 'Home', href: '#home', sectionId: 'home' },
-  { label: 'About', href: '#about', sectionId: 'about' },
   { label: 'Projects', href: '#projects', sectionId: 'projects' },
+  { label: 'Stack', href: '#skills', sectionId: 'skills' },
   { label: 'Experience', href: '#experience', sectionId: 'experience' },
-  { label: 'Skills', href: '#skills', sectionId: 'skills' },
   { label: 'Education', href: '#education', sectionId: 'education' },
+  { label: 'Courses', href: '#courses', sectionId: 'courses' },
+  { label: 'References', href: '#references', sectionId: 'references', desktop: false },
   { label: 'Contact', href: '#contact', sectionId: 'contact' },
 ] as const;

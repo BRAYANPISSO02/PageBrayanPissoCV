@@ -2,6 +2,8 @@
 import Icon from './Icon.astro';
 import { NAV_LINKS, CV_URL } from '../lib/site';
 import { CV_AVAILABLE } from '../lib/cv';
+
+const desktopLinks = NAV_LINKS.filter((link) => link.desktop !== false);
 ---
 
 <header class="site-header" data-nav>
@@ -14,7 +16,7 @@ import { CV_AVAILABLE } from '../lib/cv';
     <nav aria-label="Primary">
       <ul class="nav-desktop">
         {
-          NAV_LINKS.map((link) => (
+          desktopLinks.map((link) => (
             <li>
               <a href={link.href}>{link.label}</a>
             </li>
