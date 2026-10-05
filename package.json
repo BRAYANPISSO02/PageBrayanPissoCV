@@ -7,11 +7,12 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build > node_modules/.astro-build.log 2>&1; code=$?; cat node_modules/.astro-build.log; exit $code",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
     "check:privacy": "node scripts/check-privacy.mjs",
+    "check:tokens": "node scripts/check-tokens.mjs",
     "check:budget": "node scripts/check-budget.mjs",
     "og": "node scripts/generate-og-image.mjs"
   },
