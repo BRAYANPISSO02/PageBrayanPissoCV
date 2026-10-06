@@ -7,16 +7,23 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build > node_modules/.astro-build.log 2>&1; code=$?; cat node_modules/.astro-build.log; exit $code",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check"
+    "check": "astro check",
+    "check:privacy": "node scripts/check-privacy.mjs",
+    "check:tokens": "node scripts/check-tokens.mjs",
+    "check:budget": "node scripts/check-budget.mjs",
+    "og": "node scripts/generate-og-image.mjs",
+    "publish": "node scripts/publish-pages.mjs"
   },
   "dependencies": {
     "astro": "^7.3.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "@types/node": "^22.20.4",
+    "sharp": "^0.35.4",
     "typescript": "^5.6.3"
   },
   "allowScripts": {

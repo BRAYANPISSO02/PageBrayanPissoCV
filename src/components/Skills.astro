@@ -1,28 +1,47 @@
 ---
-import { SKILLS } from '../lib/site';
+import { SOFT_SKILLS, STACK_PRIMARY, STACK_SECONDARY } from '../lib/site';
 ---
 
 <section id="skills" class="section" aria-labelledby="skills-title">
   <div class="container">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">Skills</p>
+      <p class="eyebrow">Stack</p>
       <h2 id="skills-title" class="section-title">Toolbox, by domain</h2>
     </div>
 
+    <p class="section-sub" data-reveal>
+      Focused on process automation through artificial intelligence and real-world problem solving.
+    </p>
+
     <div class="skills-grid">
       {
-        SKILLS.map((category, i) => (
+        STACK_PRIMARY.map((tier, i) => (
           <article class="skill-cat" data-reveal style={`--d: ${0.05 * (i % 3)}s`}>
             <header class="skill-cat-head">
-              <h3 class="skill-cat-name">{category.name}</h3>
+              <h3 class="skill-cat-name">{tier.label}</h3>
               <span class="skill-cat-index">{String(i + 1).padStart(2, '0')}</span>
             </header>
             <ul class="skill-chips">
-              {category.items.map((skill) => <li><span class="skill-chip">{skill}</span></li>)}
+              {tier.items.map((skill) => <li><span class="skill-chip">{skill}</span></li>)}
             </ul>
           </article>
         ))
       }
+    </div>
+
+    <div class="stack-secondary" data-reveal>
+      <p class="eyebrow stack-secondary-eyebrow">Stack — secondary</p>
+      <p class="stack-secondary-note">{STACK_SECONDARY.note}</p>
+      <ul class="skill-chips">
+        {
+          STACK_SECONDARY.items.map((item) => (
+            <li><span class="skill-chip skill-chip--secondary">{item}</span></li>
+          ))
+        }
+      </ul>
+      <ul class="soft-strip">
+        {SOFT_SKILLS.map((skill) => <li>{skill}</li>)}
+      </ul>
     </div>
   </div>
 </section>

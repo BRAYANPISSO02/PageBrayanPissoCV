@@ -2,13 +2,22 @@
  * Single source of truth for all factual content.
  * Every fact here comes exclusively from the CV document
  * (Brayan_Ricardo_Pisso_Ramirez_CV.pdf). Do NOT add invented content.
+ *
+ * Promotion rule for the stack: an item may enter it only if it appears
+ * verbatim in the CV, anywhere — skills list, body text or project prose.
+ * `CNNs` and `Segment Anything Model (SAM)` qualify on body text, which is why
+ * they sit in Tier 1 beside PyTorch.
  */
 
 export const SITE = {
   displayName: 'Brayan Pisso',
   fullName: 'Brayan Ricardo Pisso Ramírez',
   title: 'Electronic Engineer',
-  tagline: 'Machine Learning · Computer Vision · End-to-End AI',
+  /**
+   * Positioning, not a CV claim. The CV lists the degree, never a job title, so
+   * `title` above stays the PDF truth and this is the role the page is aimed at.
+   */
+  targetRole: 'Machine Learning Engineer',
   location: 'Manizales, Caldas, Colombia',
   email: 'bpisso@unal.edu.co',
   phoneDisplay: '+57 3152162946',
@@ -16,8 +25,6 @@ export const SITE = {
   linkedin:
     'https://www.linkedin.com/in/brayan-ricardo-pisso-ramirez-8a089a363',
   github: 'https://github.com/BRAYANPISSO02',
-  docs:
-    'https://drive.google.com/drive/folders/1gq-mUJ3unNOivBP7oHyEAeMZfHrIhP75?usp=sharing',
 } as const;
 
 /** PDF filename served from /public (copied to dist/ as-is at build time). */
@@ -26,21 +33,26 @@ export const CV_FILENAME = 'Brayan_Ricardo_Pisso_Ramirez_CV.pdf';
 /** Absolute path to the served PDF, base-aware (works under GitHub Pages). */
 export const CV_URL = import.meta.env.BASE_URL + CV_FILENAME;
 
-export const ABOUT_ME =
-  'Electronics Engineer specialized in Machine Learning and Computer Vision, with a focus on developing end-to-end solutions. Expertise in dataset construction, supervised model training, and deploying solutions using PyTorch and Amazon SageMaker. Experience in image classification projects using convolutional neural networks and in developing automated vector representation generation systems applied to design processes in real-world environments, significantly reducing manual design time. Knowledge of data acquisition systems and wireless communications (WiFi HaLow and MESH Networks) applied to production environments. Focused on process automation through artificial intelligence and real-world problem solving.';
-
-/** Key concepts from the CV, split visually in the About section. */
-export const ABOUT_CONCEPTS = [
-  'Machine Learning',
-  'Computer Vision',
-  'End-to-End Solutions',
-  'PyTorch',
-  'Amazon SageMaker',
-  'Dataset Construction',
-  'Data Acquisition',
-  'Wireless Communications',
-  'Process Automation',
-] as const;
+/**
+ * The single Hero value sentence: actor + measured outcome, no claim the CV
+ * does not carry.
+ *
+ * This is an editorial composition, not a verbatim quote, so it must carry an
+ * `EDITORIAL_ALLOWLIST` entry once the provenance gate reads this file. Every
+ * fragment traces to the redacted extract at `scripts/fixtures/cv.txt`:
+ *
+ * - "computer vision", "end-to-end solutions" — About
+ * - "dataset construction", "supervised model training",
+ *   "deploying solutions using PyTorch and Amazon SageMaker" — About
+ * - "microenterprise", "manual design time by approximately two hours per
+ *   image" — featured project
+ *
+ * The actor is named with the CV's own noun rather than a synonym, so the
+ * outcome has something real attached to it. `≈ 2 hours per image` is the only
+ * number-shaped performance claim allowed on the page.
+ */
+export const HERO_VALUE =
+  'Builds computer vision models end-to-end — dataset construction, PyTorch training, SageMaker deployment — cutting ≈ 2 hours of manual design time per image for a microenterprise.';
 
 export interface ExperienceItem {
   title: string;
@@ -124,57 +136,90 @@ export const EDUCATION: readonly EducationItem[] = [
   },
 ];
 
-export interface SkillCategory {
-  name: string;
+export interface StackTier {
+  label: string;
   items: readonly string[];
 }
 
-/** Skills grouped into visual categories. Only technologies from the CV. */
-export const SKILLS: readonly SkillCategory[] = [
+/**
+ * Three peer tiers, ordered by how they answer an ML-engineer screen. The
+ * tier labels are editorial and must carry an `EDITORIAL_ALLOWLIST` entry
+ * once the provenance gate reads this file.
+ *
+ * Bare `AWS` is dropped: it is the parent of four listed chips, not a peer of
+ * them. `Git` joins Programming because the CV lists it with the programming
+ * languages.
+ */
+export const STACK_PRIMARY: readonly StackTier[] = [
   {
-    name: 'Machine Learning & AI',
-    items: ['PyTorch', 'TensorFlow / Keras', 'Machine Learning', 'Computer Vision'],
-  },
-  {
-    name: 'Cloud & Infrastructure',
-    items: ['AWS', 'Amazon SageMaker', 'AWS Lambda', 'Amazon Bedrock', 'Amazon S3', 'Docker'],
-  },
-  {
-    name: 'Programming',
-    items: ['Python', 'Rust', 'C', 'C++'],
-  },
-  {
-    name: 'Development',
-    items: ['Git'],
-  },
-  {
-    name: 'Embedded Systems',
-    items: ['STM32', 'ESP32', 'BeaglePlay', 'Raspberry Pi'],
-  },
-  {
-    name: 'Engineering & Design',
-    items: ['MATLAB', 'AutoCAD', 'Proteus', 'Multisim', 'KiCad'],
-  },
-  {
-    name: 'Manufacturing',
-    items: ['CNC Router', 'CNC Laser'],
-  },
-  {
-    name: 'Languages',
-    items: ['English — B2 (CEFR)', 'Spanish — Native'],
-  },
-  {
-    name: 'Soft Skills',
+    label: 'Machine Learning & Computer Vision',
     items: [
-      'Proactivity and initiative',
-      'Needs analysis',
-      'Effective communication',
-      'Resilience',
-      'Teamwork',
-      'Leadership',
+      'PyTorch',
+      'TensorFlow / Keras',
+      'Machine Learning',
+      'Computer Vision',
+      'CNNs',
+      'Segment Anything Model (SAM)',
+      'Deep Learning',
     ],
   },
-];
+  {
+    label: 'Cloud & MLOps',
+    items: ['Amazon SageMaker', 'Amazon S3', 'AWS Lambda', 'Amazon Bedrock', 'Docker'],
+  },
+  {
+    label: 'Programming',
+    items: ['Python', 'Rust', 'C', 'C++', 'Git'],
+  },
+] as const;
+
+export interface StackBand {
+  /**
+   * One framing sentence tying the band to the telemetry project. Editorial,
+   * so it must carry an `EDITORIAL_ALLOWLIST` entry; every clause traces to
+   * the redacted extract at `scripts/fixtures/cv.txt`.
+   */
+  note: string;
+  items: readonly string[];
+}
+
+/**
+ * The demoted band. Electronics, embedded and hardware are real and provable,
+ * but a peer chip beside PyTorch dilutes the ML signal, so they render once,
+ * below the tiers, at a lower weight. Language proficiency lives here too: it
+ * is CV-verifiable and there is no fourth tier to put it in.
+ */
+export const STACK_SECONDARY: StackBand = {
+  note: 'Long-Range Telemetry Project: long-distance data acquisition over Wi-Fi HaLow connectivity, with integration into the ThingsBoard IoT monitoring and management platform.',
+  items: [
+    'STM32',
+    'ESP32',
+    'BeaglePlay',
+    'Raspberry Pi',
+    'MATLAB',
+    'AutoCAD',
+    'Proteus',
+    'Multisim',
+    'KiCad',
+    'CNC Router',
+    'CNC Laser',
+    'English — B2 (CEFR)',
+    'Spanish — Native',
+  ],
+} as const;
+
+/**
+ * Six soft skills, rendered as one low-emphasis strip rather than chips: they
+ * are the weakest kind of evidence on the page and must not read as a tier.
+ */
+export const SOFT_SKILLS: readonly string[] = [
+  'Proactivity and initiative',
+  'Needs analysis',
+  'Effective communication',
+  'Resilience',
+  'Teamwork',
+  'Leadership',
+] as const;
 
 export interface CourseItem {
   title: string;
@@ -223,18 +268,125 @@ export const REFERENCES: readonly ReferenceItem[] = [
 
 export const REFERENCES_NOTE = 'References contacts available upon request';
 
+/**
+ * One document the owner is willing to hand over, described but never linked.
+ *
+ * There is deliberately no `href`, `path` or `url` field. A document link is
+ * not merely discouraged here, it is unrepresentable: adding the field is a
+ * type error. That is the structural closure of the Drive-exposure class — the
+ * design's answer to "the folder link is one permission change away from being
+ * public" is that the site has no place to put a link, not a rule saying not
+ * to add one.
+ */
+export interface DocumentEntry {
+  readonly title: string;
+  /** What the file is, so the reader knows what they are asking for. */
+  readonly kind: string;
+  /** One line on what it covers and when it was last current. */
+  readonly note: string;
+}
+
+/**
+ * A data-only switch, discriminated so the inactive path is type-enforced.
+ *
+ * `mode: 'form'` requires an `endpoint`; there is no way to write a form config
+ * without naming where the data goes, and no way to write a `mailto` config
+ * that carries one. Flipping the mode is an edit to this object and nothing
+ * else: no component, no CSS, no template.
+ *
+ * The endpoint stays absent. Turning the form on means a commercial third party
+ * lands in a visitor's personal-data path and in page source, which is a
+ * decision for the owner to make deliberately, not a default to inherit.
+ */
+export type DocRequestConfig =
+  | {
+      readonly mode: 'mailto';
+      readonly documents: readonly DocumentEntry[];
+    }
+  | {
+      readonly mode: 'form';
+      readonly endpoint: string;
+      /** Only read by the form branch; never serialised anywhere else. */
+      readonly accessKey?: string;
+      readonly documents: readonly DocumentEntry[];
+    };
+
+/**
+ * Copy for the document-request channel.
+ *
+ * `DOC_REQUEST_COPY` is separate from `DOC_REQUEST` so the union above carries
+ * only facts, and the wording lives in one place a reviewer can read end to end.
+ *
+ * Two constraints shape this wording. It must never imply the site can verify
+ * anyone: there are no accounts, no login and no signature, so whatever a
+ * visitor types is self-reported and the honest phrasing is a request to
+ * identify themselves, not a check that passes. And the privacy note has to
+ * match the mode that actually ships — under `mailto:` nothing leaves the
+ * visitor's own mail client for a processor to see, and claiming otherwise
+ * would misdescribe where their name and email go.
+ */
+export const DOC_REQUEST_COPY = {
+  heading: 'Documents',
+  /** Shown above the catalog. Names the mechanism, not a security claim. */
+  intro: 'Documents are shared on request. Tell me who you are and which one you need, and I will send it over.',
+  /** The per-entry action. A verb, not a promise of a download. */
+  action: 'Request',
+  /** `mailto:` body preamble; the identity block is appended by the component. */
+  mailSubject: 'Document request',
+  mailGreeting: 'Hello Brayan,',
+  /** Left blank on purpose: it is the visitor's line to fill in. */
+  mailIdentityLine: 'Your name / your email:',
+  /**
+   * Shown under both modes. The third-party clause is supplied by the
+   * component, which knows the mode; naming a service here would be a claim
+   * that is wrong the moment `mode` changes.
+   */
+  privacy: 'Send me only your name and email address, and only what the document needs. No cookies and no tracking are used on this site.',
+  /** Consent, stated as the owner's right rather than a soft promise. */
+  decline: 'You can also say no, and nothing will be sent.',
+} as const;
+
+/**
+ * Ships in `mailto:` mode, which is why the form branch needs no endpoint here.
+ *
+ * One entry, because one is what the owner is actually prepared to send. A
+ * second entry would need a PDF-traceable title or an allowlist entry under
+ * R-45, which is the point: the catalog cannot grow by accident.
+ */
+export const DOC_REQUEST: DocRequestConfig = {
+  mode: 'mailto',
+  documents: [
+    {
+      title: 'Curriculum Vitae',
+      kind: 'PDF',
+      note: 'Machine learning and computer vision profile, project and academic record.',
+    },
+  ],
+};
+
 export interface NavLink {
   label: string;
   href: string;
   sectionId: string;
+  /**
+   * `false` keeps the entry in the mobile menu but out of the desktop bar.
+   * Used where the section is real and worth reaching but the bar is already
+   * carrying enough weight at narrow desktop widths.
+   */
+  desktop?: boolean;
 }
 
+/**
+ * One entry per rendered section, in document order, so a nav link can never
+ * point at a section that no longer exists.
+ */
 export const NAV_LINKS: readonly NavLink[] = [
   { label: 'Home', href: '#home', sectionId: 'home' },
-  { label: 'About', href: '#about', sectionId: 'about' },
   { label: 'Projects', href: '#projects', sectionId: 'projects' },
+  { label: 'Stack', href: '#skills', sectionId: 'skills' },
   { label: 'Experience', href: '#experience', sectionId: 'experience' },
-  { label: 'Skills', href: '#skills', sectionId: 'skills' },
   { label: 'Education', href: '#education', sectionId: 'education' },
+  { label: 'Courses', href: '#courses', sectionId: 'courses' },
+  { label: 'References', href: '#references', sectionId: 'references', desktop: false },
   { label: 'Contact', href: '#contact', sectionId: 'contact' },
 ] as const;

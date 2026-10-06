@@ -1,6 +1,9 @@
 ---
 import Icon from './Icon.astro';
 import { NAV_LINKS, CV_URL } from '../lib/site';
+import { CV_AVAILABLE } from '../lib/cv';
+
+const desktopLinks = NAV_LINKS.filter((link) => link.desktop !== false);
 ---
 
 <header class="site-header" data-nav>
@@ -13,23 +16,33 @@ import { NAV_LINKS, CV_URL } from '../lib/site';
     <nav aria-label="Primary">
       <ul class="nav-desktop">
         {
-          NAV_LINKS.map((link) => (
+          desktopLinks.map((link) => (
             <li>
               <a href={link.href}>{link.label}</a>
             </li>
           ))
         }
-        <li>
-          <a class="nav-cta" href={CV_URL} download>
-            <Icon name="download" size={15} strokeWidth={2.2} />
-            CV
-          </a>
-        </li>
+        {
+          CV_AVAILABLE && (
+            <li>
+              <a class="nav-cta" href={CV_URL} download>
+                <Icon name="download" size={15} strokeWidth={2.2} />
+                CV
+              </a>
+            </li>
+          )
+        }
       </ul>
     </nav>
 
+    {/*
+      Both glyphs ship in the markup and the CSS picks one from the button's
+      own `aria-expanded`, so the swap needs no JavaScript, cannot desync from
+      the ARIA state, and costs one CSS rule instead of a re-render.
+    */}
     <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-mobile" aria-label="Open menu">
-      <Icon name="menu" size={20} strokeWidth={2} />
+      <span class="nav-toggle-icon" data-icon="menu"><Icon name="menu" size={20} strokeWidth={2} /></span>
+      <span class="nav-toggle-icon" data-icon="close"><Icon name="close" size={20} strokeWidth={2} /></span>
     </button>
   </div>
 
@@ -44,12 +57,16 @@ import { NAV_LINKS, CV_URL } from '../lib/site';
               </li>
             ))
           }
-          <li>
-            <a class="nav-mobile-cta" href={CV_URL} download>
-              <Icon name="download" size={16} strokeWidth={2.2} />
-              Download CV (PDF)
-            </a>
-          </li>
+          {
+            CV_AVAILABLE && (
+              <li>
+                <a class="nav-mobile-cta" href={CV_URL} download>
+                  <Icon name="download" size={16} strokeWidth={2.2} />
+                  Download CV (PDF)
+                </a>
+              </li>
+            )
+          }
         </ul>
       </nav>
     </div>

@@ -1,6 +1,8 @@
 ---
 import Icon from './Icon.astro';
+import Documents from './Documents.astro';
 import { SITE, CV_URL } from '../lib/site';
+import { CV_AVAILABLE } from '../lib/cv';
 ---
 
 <section id="contact" class="section" aria-labelledby="contact-title">
@@ -35,10 +37,14 @@ import { SITE, CV_URL } from '../lib/site';
           </dl>
 
           <div class="contact-actions">
-            <a class="btn btn--light" href={CV_URL} download>
-              <Icon name="download" size={16} strokeWidth={2.2} />
-              Download CV
-            </a>
+            {
+              CV_AVAILABLE && (
+                <a class="btn btn--light" href={CV_URL} download>
+                  <Icon name="download" size={16} strokeWidth={2.2} />
+                  Download CV
+                </a>
+              )
+            }
             <a class="btn btn--outline-light" href={SITE.github} target="_blank" rel="noopener noreferrer">
               <Icon name="github" size={16} strokeWidth={2} />
               GitHub
@@ -48,13 +54,15 @@ import { SITE, CV_URL } from '../lib/site';
               LinkedIn
             </a>
           </div>
-
-          <a class="docs-link" href={SITE.docs} target="_blank" rel="noopener noreferrer">
-            <Icon name="folder" size={16} strokeWidth={1.9} />
-            Link to documents
-            <Icon name="external" size={13} strokeWidth={2.1} />
-          </a>
         </div>
+
+        {/*
+          The document catalog lives here, not in its own section. A ninth
+          `<section id>` would be a nav target with no link and no link with no
+          target, and this content is part of the contact exchange anyway: the
+          only way to get a document is to start a conversation.
+        */}
+        <Documents />
       </div>
     </div>
   </div>

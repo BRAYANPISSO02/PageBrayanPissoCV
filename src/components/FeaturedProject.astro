@@ -18,10 +18,10 @@ const { title, org, period, tags, case: caseStudy } = FEATURED_PROJECT;
           <Icon name="chip" size={15} strokeWidth={1.9} />
           Flagship · {org} · {period}
         </p>
-        <h3 class="section-title" style="color: var(--dark-ink)">{title}</h3>
+        <h3 class="featured-title">{title}</h3>
 
         <ul class="entry-tags" aria-label="Technologies">
-          {tags.map((tag) => <li><span class="chip" style="border-color: var(--dark-line-strong); background: rgba(255,255,255,.05); color: var(--dark-ink-2)">{tag}</span></li>)}
+          {tags.map((tag) => <li><span class="chip chip--on-panel">{tag}</span></li>)}
         </ul>
 
         <p class="featured-summary">{FEATURED_PROJECT.summary}</p>

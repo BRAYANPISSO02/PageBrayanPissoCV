@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -15,16 +16,71 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  # Non-deploying gate. Runs on every pull request and on every branch push
+  # that is not `main`; a `main` push already executes this same chain inside
+  # the `build` job below. It carries its own concurrency group because the
+  # workflow-level `pages` group would serialise each pull request behind
+  # whichever one currently holds a deploy.
+  check:
+    if: github.event_name != 'workflow_dispatch' && (github.event_name == 'pull_request' || github.ref_name != 'main')
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    concurrency:
+      group: check-${{ github.ref }}
+      cancel-in-progress: true
     steps:
-      - name: Checkout your repository using git
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install, build, and upload your site
-        uses: withastro/action@v3
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          package-manager: npm@latest
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # poppler-utils supplies pdftotext. Without it assertion C degrades to
+      # exit 3, a distinct non-zero code — never a silent pass.
+      - name: Install pdftotext
+        run: sudo apt-get install -y poppler-utils
+
+      # Order matters: every gate after `build` reads dist/, which Astro empties
+      # before each build. Running check:privacy first would scan a directory
+      # that does not exist yet on a clean runner.
+      - name: Type-check, build, and gate
+        run: npm run check && npm run build && npm run check:privacy && npm run check:tokens && npm run check:budget
+
+  # Builds the Pages artifact and uploads it. Guarded to `main` pushes and
+  # manual dispatch only: without this guard a pull request would run
+  # configure-pages and upload-pages-artifact against untrusted branch code.
+  build:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install pdftotext
+        run: sudo apt-get install -y poppler-utils
+
+      # The two byte ceilings of R-57 are enforced by `npm run check:budget`.
+      # Its third clause — build under 600 ms — is deliberately not gated: a
+      # shared runner cannot reach that cold, so enforcing it would leave the
+      # pipeline permanently red and teach everyone to ignore a red build.
+      - name: Type-check, build, and gate
+        run: npm run check && npm run build && npm run check:privacy && npm run check:tokens && npm run check:budget
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

@@ -31,3 +31,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# --- local agent tooling ---
+# Scratch state produced by the agent harness. Never part of the site, and a
+# `git add -A` must not be able to sweep either path into a commit.
+.pi/
+.atl/.skill-registry.cache.json

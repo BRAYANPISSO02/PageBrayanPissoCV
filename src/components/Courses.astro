@@ -17,7 +17,14 @@ import { COURSES } from '../lib/site';
             <div>
               <h3 class="course-title">{course.title}</h3>
               <p class="course-provider">
-                {course.platform} — {course.provider}
+                {/*
+                  Some entries list the same body twice (platform and provider
+                  both "Coursera"). Compare the two fields instead of matching a
+                  literal, so any future duplicate is suppressed too.
+                */}
+                {course.platform === course.provider
+                  ? course.platform
+                  : `${course.platform} — ${course.provider}`}
               </p>
             </div>
             <span class="course-badge">Certified</span>

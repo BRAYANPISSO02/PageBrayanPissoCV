@@ -1,0 +1,119 @@
+# Redacted text extract of the CV, used as the provenance source for
+# assertion C of scripts/check-privacy.mjs (requirement R-45).
+#
+# Produced with: pdftotext -layout <the git-ignored source PDF>
+# The source filename is deliberately absent below: it is a site.ts literal
+# that is not CV prose, and naming it here would satisfy the provenance
+# assertion for free.
+# The source PDF is git-ignored and never reaches CI, so this committed
+# fixture is what keeps the provenance gate enforceable. Do not replace it
+# with the PDF, and do not restore the redacted values.
+#
+# Redacted: the national ID (CC), the private Drive folder URL, and any
+# Canva design identifiers. The signature is a raster image and carries no
+# text layer, so it is absent here by construction.
+# The text below is otherwise verbatim: no paraphrasing, no reflowing.
+
+                        BRAYAN PISSO
+                                         ELECTRONIC ENGINEER
+
+
+                   Manizales, Caldas, Colombia     (+57) 3152162946     bpisso@unal.edu.co
+                          www.linkedin.com/in/brayan-ricardo-pisso-ramirez-8a089a363
+                                     https://github.com/BRAYANPISSO02
+ABOUT ME
+
+Electronics Engineer specialized in Machine Learning and Computer Vision, with a focus on developing
+end-to-end solutions. Expertise in dataset construction, supervised model training, and deploying
+solutions using PyTorch and Amazon SageMaker. Experience in image classification projects using
+convolutional neural networks and in developing automated vector representation generation systems
+applied to design processes in real-world environments, significantly reducing manual design time.
+Knowledge of data acquisition systems and wireless communications (WiFi HaLow and MESH Networks)
+applied to production environments. Focused on process automation through artificial intelligence and
+real-world problem solving.
+
+ACADEMIC BACKGROUND
+
+Electronic Engineer                                                               Aug 2020 – Apr 2026
+Universidad Nacional de Colombia
+Software Programming Technician                                                   Feb 2019 – Nov 2019
+Servicio Nacional de Aprendizaje (SENA)
+M.S. Student in Industrial Automation Engineering                                      Jun 2026 – Present
+(Research Focus: Machine Learning and Automatic Recognition)
+Universidad Nacional de Colombia
+
+EXPERIENCE
+
+Automatic Generation of Human Vector Representations Using Deep                     Feb 2026 – Present
+Learning | Small Business
+Implemented a computer vision solution to automatically generate SVG vector representations of
+people from photographs. The project, aimed at a microenterprise specializing in laser cutting and
+engraving, has a real impact by reducing manual design time by approximately two hours per image.
+It leverages deep learning models developed in PyTorch, including the Segment Anything Model
+(SAM) for interactive segmentation tasks. A data engineering pipeline was developed to build a
+dataset for supervised training of a vision model in Amazon SageMaker, focused on image-to-image
+translation tasks.
+
+Image Processing Project | Universidad Nacional de Colombia                      Aug 2024 – Dec 2024
+Developed computer vision pipelines for image classification using convolutional neural networks
+(CNNs) in TensorFlow/Keras, including data preprocessing, supervised training, dropout-based
+regularization, and experimental performance evaluation across multiple standard datasets.
+
+Long-Range Telemetry Project | Percepción y Control Inteligente (PCI)               Jun 2025 – Dec 2025
+Research Group.
+Developed and implemented a pilot test at the Universidad Nacional de Colombia, La Nubia campus,
+of a long-distance data acquisition system for multiple electrical energy meters, using Modbus
+RTU/TCP and DLMS/COSEM protocols over Wi-Fi HaLow connectivity, with integration into the
+ThingsBoard IoT monitoring and management platform, designed to operate in self-organized multi-
+hop mesh network topologies.
+     Electronic Designer | Microenterprise                                                Jan 2021 – Present
+     Responsible for schematic design and PCB routing in KiCad (2D/3D) as well as electronic board
+     prototyping and the development of structures for manufacturing using CNC machining and laser
+     cutting.
+
+     COURSES
+
+     GenAI and LLMs on AWS | Coursera (Certified)
+     Duke University
+     Data Science & Inteligencia Artificial aplicados a negocios | Coursera (Certified)
+     University of Palermo
+     AWS S3 Basic | Coursera (Certified)
+     Coursera
+
+
+     SKILLS
+
+     Languages:
+     English B2 (CEFR), Native Spanish
+     Technical Skills
+        Programming languages: Python, Rust, C, C++ | Git (repository management).
+        Cloud Infrastructure: AWS (Lambda, SageMaker, Bedrock, S3) and Docker.
+        Modeling and simulation tools: MATLAB, AutoCAD, Proteus, Multisim, and KiCad.
+        Embedded systems: STM32, ESP32, BeaglePlay, and Raspberry Pi.
+        CNC machinery operation: Router and Laser.
+     Soft Skills
+     Proactivity and initiative, needs analysis, effective communication, resilience, teamwork, leadership.
+
+
+     REFERENCES (References contacts available upon request)
+
+     GUSTAVO ADOLFO OSORIO LONDOÑO (Ph.D. in Industrial Automation, M.Sc. in Engineering)
+     Professor, Department of Electrical, Electronic and Communications Engineering
+     Universidad Nacional de Colombia
+     LUIS FERNANDO DÍAZ CADAVID (Ph.D., M.Sc.)
+     Professor, Department of Electrical, Electronic and Communications Engineering
+     Universidad Nacional de Colombia
+
+
+
+
+     BRAYAN RICARDO PISSO RAMÍREZ
+     CC. [REDACTED]
+     MANIZALES, CALDAS, COLOMBIA
+
+
+
+
+                                             Link to documents
+
+[REDACTED]
