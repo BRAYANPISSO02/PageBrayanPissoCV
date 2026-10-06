@@ -1,0 +1,1 @@
+Astro emits assets under _astro/, which Jekyll ignores.
