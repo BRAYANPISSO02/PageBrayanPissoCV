@@ -14,7 +14,8 @@
     "check:privacy": "node scripts/check-privacy.mjs",
     "check:tokens": "node scripts/check-tokens.mjs",
     "check:budget": "node scripts/check-budget.mjs",
-    "og": "node scripts/generate-og-image.mjs"
+    "og": "node scripts/generate-og-image.mjs",
+    "publish": "node scripts/publish-pages.mjs"
   },
   "dependencies": {
     "astro": "^7.3.2"
